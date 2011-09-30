@@ -1,0 +1,31 @@
+Growl Notification Output Plugin
+
+First, you must set up growl can "Listen for incoming notifications" at "Growl" in "System Preferences".
+
+fluent.conf example:
+=====
+<match growl.**>
+  type growl
+
+  server localhost
+  #password fluent
+  appname Fluent Growl Notify
+
+  <notify>
+    name Notify
+    priority 0
+    sticky false
+  </notify>
+
+  <notify>
+    name StickyNotify
+    priority 0
+    sticky true
+  </notify>
+</match>
+=====
+
+and some command line example
+$ echo '{"title": "Title", "message": "Hello World!!"}' | fluent-cat growl.test
+$ echo '{"title": "Sticky", "message": "It's sticky message!!", notify:"StickyNotify"}' | fluent-cat growl.test
+$ echo '{}' | fluent-cat growl.test
