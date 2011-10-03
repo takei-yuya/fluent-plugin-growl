@@ -26,6 +26,8 @@ fluent.conf example:
 =====
 
 and some command line example
+=====
 $ echo '{"title": "Title", "message": "Hello World!!"}' | fluent-cat growl.test
 $ echo '{"title": "Sticky", "message": "It's sticky message!!", notify:"StickyNotify"}' | fluent-cat growl.test
 $ echo '{}' | fluent-cat growl.test
+=====
