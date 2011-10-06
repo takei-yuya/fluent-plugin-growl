@@ -11,6 +11,7 @@ module Fluent
 		DEFAULT_PASSWORD = nil
 		DEFAULT_APPNAME = "Fluent Growl Notification"
 		DEFAULT_NOTIFICATION_NAME = "Fluent Defalt Notification"
+		DEFAULT_TITLE = "Fluent Notification"
 
 		def initialize
 			@growl
@@ -31,19 +32,19 @@ module Fluent
 				end
 				priority = e['priority'].to_i
 				sticky = (e.has_key? "sticky") && (e["sticky"].match /y(es)?|on|true/i ) && true
-				@notifies[name] = {:priority => priority, :sticky => sticky}
+				@notifies[name] = { :priority => priority, :sticky => sticky }
 			}
 			# if @notifies.empty?
 			#  raise ConfigError, "At least one <notify> directive is needed"
 			# end
-			@notifies[DEFAULT_NOTIFICATION_NAME] = {:priority => 0, :sticky => false}
+			@notifies[DEFAULT_NOTIFICATION_NAME] = { :priority => 0, :sticky => false }
 
 			@growl = Growl.new server, appname, @notifies.keys, nil, password
 		end
 
 		def emit(tag, es, chain)
 			es.each{|e|
-				title = e.record["title"] || "Fluent Notification"
+				title = e.record["title"] || DEFAULT_TITLE
 				message = e.record["message"] || "#{e.record.to_json} at #{Time.at(e.time).localtime}"
 				notifyname = e.record["notify"] || DEFAULT_NOTIFICATION_NAME
 				notify = @notifies[notifyname]
