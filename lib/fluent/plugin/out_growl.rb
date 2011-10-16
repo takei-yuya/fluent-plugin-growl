@@ -12,11 +12,9 @@ module Fluent
 		DEFAULT_APPNAME = "Fluent Growl Notification"
 		DEFAULT_NOTIFICATION_NAME = "Fluent Defalt Notification"
 
-		def initialize
-			@growl
-		end
-
 		def configure(conf)
+			super
+
 			server = conf['server'] || DEFAULT_SERVER
 			password = conf['password'] || DEFAULT_PASSWORD
 			appname = conf['appname'] || DEFAULT_APPNAME
@@ -42,10 +40,10 @@ module Fluent
 		end
 
 		def emit(tag, es, chain)
-			es.each{|e|
-				title = e.record["title"] || "Fluent Notification"
-				message = e.record["message"] || "#{e.record.to_json} at #{Time.at(e.time).localtime}"
-				notifyname = e.record["notify"] || DEFAULT_NOTIFICATION_NAME
+			es.each{|time,record|
+				title = record["title"] || "Fluent Notification"
+				message = record["message"] || "#{record.to_json} at #{Time.at(time).localtime}"
+				notifyname = record["notify"] || DEFAULT_NOTIFICATION_NAME
 				notify = @notifies[notifyname]
 				unless notify
 					# TODO: ConfigError?
