@@ -41,6 +41,7 @@ module Fluent
 		end
 
 		def emit(tag, es, chain)
+			es.each{|time,record|
 				title = record["title"] || DEFAULT_TITLE
 				message = record["message"] || "#{record.to_json} at #{Time.at(time).localtime}"
 				notifyname = record["notify"] || DEFAULT_NOTIFICATION_NAME
