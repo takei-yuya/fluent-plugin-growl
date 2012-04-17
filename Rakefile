@@ -13,7 +13,7 @@ begin
 		gemspec.has_rdoc = false
 		gemspec.require_paths = ["lib"]
 		gemspec.add_dependency "fluentd", "~> 0.10.0"
-		gemspec.add_dependency "ruby-growl", "~> 3.0"
+		gemspec.add_dependency "ruby-growl", "~> 4.0"
 		gemspec.test_files = Dir["test/**/*.rb"]
 		gemspec.files = Dir["bin/**/*", "lib/**/*", "test/**/*.rb"] + %w[VERSION AUTHORS Rakefile]
 		gemspec.executables = []
