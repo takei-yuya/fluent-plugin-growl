@@ -37,7 +37,11 @@ module Fluent
 			# end
 			@notifies[DEFAULT_NOTIFICATION_NAME] = { :priority => 0, :sticky => false }
 
-			@growl = Growl.new server, appname, @notifies.keys, nil, password
+			@growl = Growl.new server, appname
+			@notifies.keys.each{|name|
+				@growl.add_notification name
+			}
+			@growl.password = password
 		end
 
 		def emit(tag, es, chain)
