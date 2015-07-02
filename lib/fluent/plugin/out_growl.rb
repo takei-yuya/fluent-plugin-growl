@@ -14,7 +14,7 @@ module Fluent
 		DEFAULT_TITLE = "Fluent Notification"
 
 		config_param :server, :string, :default => DEFAULT_SERVER
-		config_param :password, :string, :default => DEFAULT_PASSWORD
+		config_param :password, :string, :default => DEFAULT_PASSWORD, :secret => true
 		config_param :appname, :string, :default => DEFAULT_APPNAME
 
 		def configure(conf)
