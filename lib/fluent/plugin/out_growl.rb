@@ -13,12 +13,12 @@ module Fluent
 		DEFAULT_NOTIFICATION_NAME = "Fluent Defalt Notification"
 		DEFAULT_TITLE = "Fluent Notification"
 
+		config_param :server, :string, :default => DEFAULT_SERVER
+		config_param :password, :string, :default => DEFAULT_PASSWORD, :secret => true
+		config_param :appname, :string, :default => DEFAULT_APPNAME
+
 		def configure(conf)
 			super
-
-			server = conf['server'] || DEFAULT_SERVER
-			password = conf['password'] || DEFAULT_PASSWORD
-			appname = conf['appname'] || DEFAULT_APPNAME
 
 			@notifies = {}
 			conf.elements.select{|e|
@@ -37,11 +37,11 @@ module Fluent
 			# end
 			@notifies[DEFAULT_NOTIFICATION_NAME] = { :priority => 0, :sticky => false }
 
-			@growl = Growl.new server, appname
+			@growl = Growl.new @server, @appname
 			@notifies.keys.each{|name|
 				@growl.add_notification name
 			}
-			@growl.password = password
+			@growl.password = @password
 		end
 
 		def emit(tag, es, chain)
